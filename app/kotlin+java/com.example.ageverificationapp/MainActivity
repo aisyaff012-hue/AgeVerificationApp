@@ -1,0 +1,54 @@
+package com.example.ageverificationapp
+
+import android.graphics.Color
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Link variables to the components in the XML layout
+        val etAge = findViewById<EditText>(R.id.etUmur)
+        val btnCheck = findViewById<Button>(R.id.btnSemak)
+        val tvResult = findViewById<TextView>(R.id.tvHasil)
+
+        // Define what happens when the button is clicked
+        btnCheck.setOnClickListener {
+
+            val input = etAge.text.toString()
+
+            // CHECK 1: Is the input empty?
+            if (input.isEmpty()) {
+                tvResult.text = "Please enter your age first."
+                tvResult.setTextColor(Color.GRAY)
+            } else {
+                val age = input.toInt()
+
+                // CHECK 2: Is the age realistic?
+                if (age > 120) {
+                    tvResult.text = "Invalid age. Please enter a valid age."
+                    tvResult.setTextColor(Color.GRAY)
+
+                    // CHECK 3: Main eligibility logic
+                } else if (age < 13) {
+                    tvResult.text = "ACCESS DENIED\nChildren's content only."
+                    tvResult.setTextColor(Color.RED)
+
+                } else if (age < 18) {
+                    tvResult.text = "RESTRICTED ACCESS\nPG-13 content only."
+                    tvResult.setTextColor(Color.rgb(255, 140, 0))
+
+                } else {
+                    tvResult.text = "ACCESS GRANTED\nYou may view all content."
+                    tvResult.setTextColor(Color.rgb(0, 150, 0))
+                }
+            }
+        }
+    }
+}
